@@ -1,6 +1,7 @@
 const chalk = require('chalk')
 const yargs = require('yargs')
 const notes = require('./notes.js')
+const { listNotes } = require('./notes.js')
 
 
 // const command = process.argv[2]
@@ -57,7 +58,7 @@ yargs.command({
     command: 'list',
     describe: "List a note",
     handler() {
-        console.log('Listing a note')
+        notes.listNotes()
     }
 })
 
@@ -65,8 +66,15 @@ yargs.command({
 yargs.command({
     command: 'read',
     describe: "Read a note",
-    handler() {
-        console.log('Reading a note')
+    builder: {
+        title: {
+            describe: 'Note title to read',
+            demandOption: true,
+            type: 'string'
+        },
+    },
+    handler(argv) {
+        notes.readNote(argv.title)
     }
 })
 
